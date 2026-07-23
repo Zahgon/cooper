@@ -1,5 +1,3 @@
-# Copyright (C) 2025 The Cooper Developers.
-# Licensed under the MIT License.
 
 from typing import Literal, Optional
 
@@ -11,21 +9,6 @@ from cooper.utils import ConstraintType
 
 
 class Constraint:
-    """A constraint in a constrained optimization problem.
-
-    Args:
-        constraint_type: One of :py:class:`cooper.ConstraintType.EQUALITY` or
-            :py:class:`cooper.ConstraintType.INEQUALITY`.
-        formulation_type: The formulation type for computing the constraint's contribution
-            to the Lagrangian. Defaults to :py:class:`~cooper.formulations.Lagrangian`.
-        multiplier: The Lagrange multiplier associated with the constraint. This is only
-            used for formulations with ``Formulation.expects_multiplier=True``, such as
-            the :py:class:`~cooper.formulations.Lagrangian`.
-        penalty_coefficient: The penalty coefficient used to penalize the constraint
-            violation. This is only used for formulations with
-            ``Formulation.expects_penalty_coefficient=True``, such as the
-            :py:class:`~cooper.formulations.AugmentedLagrangian`.
-    """
 
     def __init__(
         self,
@@ -50,26 +33,16 @@ class Constraint:
 
     @property
     def name(self) -> str:
-        return self._name
+        pass
 
     @name.setter
     def name(self, name: str) -> None:
-        if self._name is not None:
-            raise ValueError("Cannot set the name of a constraint more than once.")
-        self._name = name
+        pass
 
     def compute_contribution_to_lagrangian(
         self, constraint_state: ConstraintState, primal_or_dual: Literal["primal", "dual"]
     ) -> Optional[ContributionStore]:
-        """Compute the contribution of the current constraint to the primal or dual Lagrangian."""
-        compute_contribution_fn = getattr(self.formulation, f"compute_contribution_to_{primal_or_dual}_lagrangian")
-
-        kwargs = {"constraint_state": constraint_state}
-        if self.formulation.expects_penalty_coefficient:
-            kwargs["penalty_coefficient"] = self.penalty_coefficient
-        if self.formulation.expects_multiplier:
-            kwargs["multiplier"] = self.multiplier
-        return compute_contribution_fn(**kwargs)
+        pass
 
     def __repr__(self) -> str:
         repr_ = f"constraint_type={self.constraint_type}, formulation={self.formulation}"
